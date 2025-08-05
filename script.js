@@ -1,67 +1,58 @@
-let coins = Number(localStorage.getItem("coins")) || 0;
-const counter = document.getElementById("coin-counter");
-const clickArea = document.getElementById("click-area");
+document.addEventListener("DOMContentLoaded", () => {
+  let coins = 0;
+  let isMenuOpen = false;
 
-function updateCounter() {
-  counter.textContent = "Монеты: " + coins;
-}
+  const coinCounter = document.getElementById("coin-counter");
+  const menuBtn = document.getElementById("menu-btn");
+  const menuModal = document.getElementById("menu-modal");
+  const closeMenuBtn = document.getElementById("close-menu");
+  const adBanner = document.getElementById("ad-banner");
+  const topUI = document.getElementById("top-bar");
 
-function spawnPopup(x, y, text) {
-  const popup = document.createElement("div");
-  popup.className = "popup";
-  popup.textContent = "+" + text;
+  // Обновление счётчика монет
+  function updateCoins(amount) {
+    coins += amount;
+    coinCounter.textContent = coins;
+    showPopupEffect(`+${amount}`);
+  }
 
-  const offsetX = (Math.random() - 0.5) * 50;
-  const offsetY = (Math.random() - 0.5) * 20;
+  // Popup-эффект
+  function showPopupEffect(text) {
+    const popup = document.createElement("div");
+    popup.className = "popup-text";
+    popup.textContent = text;
 
-  popup.style.left = x + offsetX + "px";
-  popup.style.top = y + offsetY - 80 + "px"; // сдвиг вверх
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2 - 50;
+    const offsetX = Math.random() * 100 - 50;
+    const offsetY = Math.random() * 30 - 15;
 
-  document.body.appendChild(popup);
+    popup.style.left = `${centerX + offsetX}px`;
+    popup.style.top = `${centerY + offsetY}px`;
 
-  setTimeout(() => {
-    popup.remove();
-  }, 1000);
-}
+    document.body.appendChild(popup);
+    setTimeout(() => popup.remove(), 800);
+  }
 
-clickArea.addEventListener("click", (e) => {
-  if (isMenuOpen) return;
+  // Обработка кликов по экрану
+  document.addEventListener("click", (e) => {
+    if (isMenuOpen) return;
 
-  coins += 1;
-  updateCounter();
-  localStorage.setItem("coins", coins);
+    const target = e.target;
+    if (topUI.contains(target) || adBanner.contains(target) || menuModal.contains(target)) return;
 
-  spawnPopup(e.clientX, e.clientY, 1);
+    updateCoins(1);
+  });
+
+  // Кнопка меню — открытие
+  menuBtn.addEventListener("click", () => {
+    menuModal.classList.remove("hidden");
+    isMenuOpen = true;
+  });
+
+  // Кнопка закрытия меню
+  closeMenuBtn.addEventListener("click", () => {
+    menuModal.classList.add("hidden");
+    isMenuOpen = false;
+  });
 });
-
-updateCounter();
-
-const menuBtn = document.getElementById("menu-btn");
-const menuModal = document.getElementById("menu-modal");
-const closeMenuBtn = document.getElementById("close-menu");
-const menuActionBtn = document.getElementById("menu-action-btn");
-
-let isMenuOpen = false;
-
-menuBtn.addEventListener("click", () => {
-  menuModal.classList.remove("hidden");
-  isMenuOpen = true;
-});
-
-closeMenuBtn.addEventListener("click", () => {
-  menuModal.classList.add("hidden");
-  isMenuOpen = false;
-});
-
-menuActionBtn.addEventListener("click", () => {
-  // Случайное действие для демонстрации
-  const actions = [
-    () => alert("Бонус монет скоро появится!"),
-    () => document.body.style.backgroundColor = "#f0f8ff",
-    () => document.getElementById("coin-counter").style.color = "gold",
-    () => alert("Ты нашёл секрет!"),
-  ];
-  const rand = Math.floor(Math.random() * actions.length);
-  actions[rand]();
-});
-
