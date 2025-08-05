@@ -1,52 +1,23 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Telegram Clicker</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Кликер</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <img id="background" src="resources/bg.png" alt="Background">
+  <div id="background"></div>
+
   <div id="top-bar">
-    <div id="menu-button">≡</div>
+    <button id="menu-btn">≡</button>
     <div id="coin-counter">Монеты: 0</div>
   </div>
+
   <div id="click-area"></div>
-  <div id="ad-banner">Здесь могла быть ваша реклама</div>
 
-  <script>
-    Telegram.WebApp.ready();
+  <div id="ad-banner">[ Баннер для рекламы ]</div>
 
-    let coins = Number(localStorage.getItem("coins")) || 0;
-    const counter = document.getElementById("coin-counter");
-    const clickArea = document.getElementById("click-area");
-
-    counter.textContent = "Монеты: " + coins;
-
-    function spawnPopup(x, y, value) {
-      const popup = document.createElement("div");
-      popup.className = "popup";
-      popup.style.left = x + "px";
-      popup.style.top = y + "px";
-      popup.textContent = `+${value}`;
-      document.body.appendChild(popup);
-
-      setTimeout(() => popup.remove(), 1000);
-    }
-
-    clickArea.addEventListener("click", (e) => {
-      const rect = clickArea.getBoundingClientRect();
-      const x = e.clientX + (Math.random() * 40 - 20);
-      const y = e.clientY + (Math.random() * 40 - 20);
-
-      coins++;
-      counter.textContent = "Монеты: " + coins;
-      localStorage.setItem("coins", coins);
-
-      spawnPopup(x, y, 1);
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
