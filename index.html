@@ -2,71 +2,51 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Кликер с рекламой</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Telegram Clicker</title>
+  <link rel="stylesheet" href="style.css">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <style>
-    body {
-      font-family: sans-serif;
-      text-align: center;
-      background: #f9f9f9;
-      padding: 30px;
-      margin: 0;
-    }
-
-    #coin {
-      width: 150px;
-      cursor: pointer;
-      margin: 20px 0;
-      transition: transform 0.1s ease;
-    }
-
-    #coin:active {
-      transform: scale(0.95);
-    }
-
-    #counter {
-      font-size: 2em;
-      margin-top: 10px;
-    }
-
-    .ad-banner {
-      width: 100%;
-      max-width: 320px;
-      height: 100px;
-      background-color: #ddd;
-      margin: 30px auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #555;
-      border: 1px dashed #aaa;
-    }
-  </style>
 </head>
 <body>
-
-  <h1>💰 Кликер с рекламой</h1>
-
-  <div class="ad-banner">
-    🔧 Здесь будет баннер-реклама
+  <img id="background" src="resources/bg.png" alt="Background">
+  <div id="top-bar">
+    <div id="menu-button">≡</div>
+    <div id="coin-counter">Монеты: 0</div>
   </div>
-
-  <img src="https://cdn-icons-png.flaticon.com/512/263/263115.png" id="coin" alt="Монетка">
-  <div id="counter">Монеты: 0</div>
+  <div id="click-area"></div>
+  <div id="ad-banner">Здесь могла быть ваша реклама</div>
 
   <script>
     Telegram.WebApp.ready();
 
-    let coins = 0;
-    const coin = document.getElementById("coin");
-    const counter = document.getElementById("counter");
+    let coins = Number(localStorage.getItem("coins")) || 0;
+    const counter = document.getElementById("coin-counter");
+    const clickArea = document.getElementById("click-area");
 
-    coin.onclick = () => {
+    counter.textContent = "Монеты: " + coins;
+
+    function spawnPopup(x, y, value) {
+      const popup = document.createElement("div");
+      popup.className = "popup";
+      popup.style.left = x + "px";
+      popup.style.top = y + "px";
+      popup.textContent = `+${value}`;
+      document.body.appendChild(popup);
+
+      setTimeout(() => popup.remove(), 1000);
+    }
+
+    clickArea.addEventListener("click", (e) => {
+      const rect = clickArea.getBoundingClientRect();
+      const x = e.clientX + (Math.random() * 40 - 20);
+      const y = e.clientY + (Math.random() * 40 - 20);
+
       coins++;
       counter.textContent = "Монеты: " + coins;
-    };
-  </script>
+      localStorage.setItem("coins", coins);
 
+      spawnPopup(x, y, 1);
+    });
+  </script>
 </body>
 </html>

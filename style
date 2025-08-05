@@ -1,0 +1,81 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+#background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -2;
+}
+
+#ad-banner {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  background-color: rgba(0, 0, 0, 0.4);
+  text-align: center;
+  line-height: 60px;
+  color: white;
+  font-size: 18px;
+  z-index: 10;
+}
+
+#top-bar {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 50px;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  z-index: 10;
+}
+
+#menu-button {
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+#coin-counter {
+  color: white;
+  font-size: 18px;
+}
+
+#click-area {
+  position: absolute;
+  top: 50px;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+  z-index: 5;
+}
+
+.popup {
+  position: absolute;
+  color: yellow;
+  font-size: 20px;
+  animation: fadeUp 1s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+}
