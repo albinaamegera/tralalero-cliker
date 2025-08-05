@@ -25,6 +25,8 @@ function spawnPopup(x, y, text) {
 }
 
 clickArea.addEventListener("click", (e) => {
+  if (isMenuOpen) return;
+
   coins += 1;
   updateCounter();
   localStorage.setItem("coins", coins);
@@ -33,3 +35,33 @@ clickArea.addEventListener("click", (e) => {
 });
 
 updateCounter();
+
+const menuBtn = document.getElementById("menu-btn");
+const menuModal = document.getElementById("menu-modal");
+const closeMenuBtn = document.getElementById("close-menu");
+const menuActionBtn = document.getElementById("menu-action-btn");
+
+let isMenuOpen = false;
+
+menuBtn.addEventListener("click", () => {
+  menuModal.classList.remove("hidden");
+  isMenuOpen = true;
+});
+
+closeMenuBtn.addEventListener("click", () => {
+  menuModal.classList.add("hidden");
+  isMenuOpen = false;
+});
+
+menuActionBtn.addEventListener("click", () => {
+  // Случайное действие для демонстрации
+  const actions = [
+    () => alert("Бонус монет скоро появится!"),
+    () => document.body.style.backgroundColor = "#f0f8ff",
+    () => document.getElementById("coin-counter").style.color = "gold",
+    () => alert("Ты нашёл секрет!"),
+  ];
+  const rand = Math.floor(Math.random() * actions.length);
+  actions[rand]();
+});
+
