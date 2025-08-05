@@ -12,10 +12,10 @@ function spawnPopup(x, y, text) {
   popup.textContent = "+" + text;
 
   const offsetX = (Math.random() - 0.5) * 50;
-  const offsetY = (Math.random() - 0.5) * 30;
+  const offsetY = (Math.random() - 0.5) * 20;
 
   popup.style.left = x + offsetX + "px";
-  popup.style.top = y + offsetY + "px";
+  popup.style.top = y + offsetY - 80 + "px"; // сдвиг вверх
 
   document.body.appendChild(popup);
 
